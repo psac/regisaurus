@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b First name:
+  = @shooter.first_name
+%p
+  %b Last name:
+  = @shooter.last_name
+%p
+  %b Uspsa number:
+  = @shooter.uspsa_number
+%p
+  %b Gender:
+  = @shooter.gender
+%p
+  %b Age:
+  = @shooter.age
+%p
+  %b Member:
+  = @shooter.member
+
+= link_to 'Edit', edit_shooter_path(@shooter)
+\|
+= link_to 'Back', shooters_path

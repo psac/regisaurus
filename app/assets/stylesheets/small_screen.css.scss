@@ -1,0 +1,66 @@
+@import 'bootstrap/mixins';
+
+.logo {
+  display: none;
+}
+.shooter-search {
+  width: 100%;
+  font-size: 26px;
+  padding: 10px;
+  height: auto;
+  line-height: 1em;
+  @include box-sizing(border-box);
+}
+.shooters {
+  .shooter {
+    @include box-sizing(border-box);
+    display: block;
+    background: black;
+    padding: 14px;
+    font-size: 32px;
+    color: white;
+    margin: 12px 0;
+    line-height: 1em;
+  }
+}
+.add-shooter {
+  @include box-sizing(border-box);
+  display: block;
+  background: #880000;
+  padding: 14px;
+  font-size: 32px;
+  color: white;
+  margin: 12px 0;
+  line-height: 1em;
+}
+.big-btn {
+  @include box-sizing(border-box);
+  display: block;
+  font-size: 62px;
+  padding: 14px;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 10px;
+  line-height: 1em;
+}
+.table {
+  font-size: 28px;
+  margin-bottom: 18px;
+  td, th {
+    padding: 10px 0;
+  }
+}
+h1 {
+  border-bottom: 2px solid black;
+}
+h3 {
+  font-size: 28px;
+  margin-bottom: 18px;
+}
+.btn-massive {
+  font-size: 50px;
+  line-height: 1em;
+  display: block !important;
+  padding: 45px 0 !important;
+  width: 100% !important;
+}

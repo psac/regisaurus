@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  cash: 1
+  check: 1
+  points: 1
+
+two:
+  cash: 1
+  check: 1
+  points: 1

@@ -1,0 +1,27 @@
+%h1 Listing Registrations
+
+%table.table.table-striped.table-bordered
+  %tr
+    %th First name
+    %th Last name
+    %th Uspsa number
+    %th Divistion
+    %th Power Factor
+    %th Squad
+    %th
+    %th
+
+  - @registrations.each do |r|
+    %tr
+      %td= r.shooter.first_name
+      %td= r.shooter.last_name
+      %td= r.shooter.uspsa_number
+      %td= r.division
+      %td= r.power_factor
+      %td= r.squad
+      %td= link_to 'Edit', edit_registration_path(r)
+      %td= link_to 'Destroy', r, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Shooter', new_shooter_path

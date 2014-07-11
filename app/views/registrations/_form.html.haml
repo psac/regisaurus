@@ -1,0 +1,204 @@
+%div{'ng-app' => 'reg', 'ng-controller' => 'controller'}
+  = form_for @registration do |f|
+    - if f.object.errors.any?
+      %ul
+        - f.object.errors.full_messages.each do |msg|
+          %li= msg
+    = f.hidden_field :shooter_id, 'value' => '{{shooter.id}}'
+    = f.hidden_field :division, 'value' => '{{division}}'
+    = f.hidden_field :power_factor, 'value' => '{{power_factor}}'
+    = f.hidden_field :squad, 'value' => '{{squad}}'
+    = f.hidden_field :invoice_id
+    = f.hidden_field :join_psac, 'value' => '{{join_psac}}'
+    %div.alert.alert-error{'ng-show' => 'errors.length > 0'}
+      %h4 Please correct the following:
+      %ul
+        %li{'ng-repeat' => 'error in errors'} {{error}}
+    %div{'ng-switch' => 'step'}
+      %div{'ng-switch-when' => 1}
+        %h1 Shooter Info
+        %div{'ng-hide' => 'newShooter'}
+          %input.shooter-search{'ng-model' => '$parent.search', placeholder: 'Search by first name, last name, or USPSA #'}
+
+          %div.shooters{'ng-show' => 'shooters.length'}
+            %div.shooter{'ng-repeat' => 'shooter in shooters', 'ng-click' => 'selectShooter(shooter)'}
+              {{shooter.first_name}} {{shooter.last_name}}
+              %span{'ng-show' => 'shooter.uspsa_number'} - {{shooter.uspsa_number}}
+          %div.add-shooter{'ng-click' => 'newShooter = true', 'ng-init' => 'newShooter = false', 'ng-show' => 'searched'} Click here if you are not on the list
+
+        %div.new-shooter{'ng-show' => 'newShooter'}
+          %p
+            %label First Name
+            %input{type: 'text', 'ng-model' => '$parent.shooter.first_name'}
+          %p
+            %label Last Name
+            %input{type: 'text', 'ng-model' => '$parent.shooter.last_name'}
+          %p
+            %label USPSA Number
+            %input{type: 'text', 'ng-model' => '$parent.shooter.uspsa_number'}
+          %p
+            %label Age
+            %label.inline.radio
+              %input{type: 'radio', value: 'ADULT', 'ng-model' => '$parent.shooter.age'}
+              Adult
+            %label.inline.radio
+              %input{type: 'radio', value: 'JUNIOR', 'ng-model' => '$parent.shooter.age'}
+              Junior
+            %label.inline.radio
+              %input{type: 'radio', value: 'SENIOR', 'ng-model' => '$parent.shooter.age'}
+              Senior
+            %label.inline.radio
+              %input{type: 'radio', value: 'SUPSNR', 'ng-model' => '$parent.shooter.age'}
+              Super Senior
+          %p
+            %label Gender
+            %label.inline.radio
+              %input{type: 'radio', value: 'MALE', 'ng-model' => '$parent.shooter.gender'}
+              Male
+            %label.inline.radio
+              %input{type: 'radio', value: 'FEMALE', 'ng-model' => '$parent.shooter.gender'}
+              Female
+          %p
+            %label Are you a member of the Aurora Gun Club? (the range, not the USPSA club)
+            %label.inline.radio
+              %input{type: 'radio', value: 'false', 'ng-model' => '$parent.shooter.agc_member'}
+              No
+            %label.inline.radio
+              %input{type: 'radio', value: 'true', 'ng-model' => '$parent.shooter.agc_member'}
+              Yes
+          %p{'ng-show' => '$parent.shooter.agc_member'}
+            %label Member Number
+            %input{type: 'text', 'ng-model' => '$parent.shooter.agc_number'}
+
+          %p
+            %button{type: 'button', 'ng-click' => 'createShooter()'} Submit
+      %div{'ng-switch-when' => 2}
+        %h1 Select Division
+        %button.big-btn{type: 'button', 'ng-click' => 'selectDivision("Open")'} Open
+        %button.big-btn{type: 'button', 'ng-click' => 'selectDivision("Limited")'} Limited
+        %button.big-btn{type: 'button', 'ng-click' => 'selectDivision("Limited 10")'} Limited 10
+        %button.big-btn{type: 'button', 'ng-click' => 'selectDivision("Single Stack")'} Single Stack
+        %button.big-btn{type: 'button', 'ng-click' => 'selectDivision("Production")'} Production
+        %button.big-btn{type: 'button', 'ng-click' => 'selectDivision("Revolver")'} Revolver
+      %div{'ng-switch-when' => 3}
+        %h1 Select Power Factor
+        %button.big-btn{type: 'button', 'ng-click' => 'selectPowerFactor("Major")'} Major
+        %button.big-btn{type: 'button', 'ng-click' => 'selectPowerFactor("Minor")'} Minor
+      %div{'ng-switch-when' => 4}
+        %h1 Select Squad
+        %button.big-btn{type: 'button', 'ng-click' => 'selectSquad("1")'} 1
+        %button.big-btn{type: 'button', 'ng-click' => 'selectSquad("2")'} 2
+        %button.big-btn{type: 'button', 'ng-click' => 'selectSquad("3")'} 3
+        %button.big-btn{type: 'button', 'ng-click' => 'selectSquad("4")'} 4
+      %div{ng_switch_when: 5}
+        %h1 Join PSAC?
+        %button.big-btn{type: 'button', 'ng-click' => 'joinPsac("1")'} Yes
+        %button.big-btn{type: 'button', 'ng-click' => 'joinPsac("0")'} No
+
+      %div{'ng-switch-when' => 6}
+        %h1 Summary
+        %table.table.table-bordered.table-striped
+          %tr
+            %th Division
+            %td{} {{division}}
+          %tr
+            %th Power Factor
+            %td{} {{power_factor}}
+          %tr
+            %th Squad
+            %td{} {{squad}}
+          %tr
+            %th First Name
+            %td{} {{shooter.first_name}}
+          %tr
+            %th Last Name
+            %td{} {{shooter.last_name}}
+          %tr
+            %th USPSA Number
+            %td{} {{shooter.uspsa_number}}
+          %tr
+            %th Age
+            %td{} {{shooter.age}}
+          %tr
+            %th Gender
+            %td{} {{shooter.gender}}
+          %tr{'ng-show' => 'shooter.agc_member'}
+            %th AGC Member Number
+            %td{} {{shooter.agc_number}}
+
+        = f.submit 'Sign Up', class: 'btn btn-primary btn-massive'
+
+:coffee
+  app = angular.module 'reg', []
+  app.controller 'controller', ($scope, $http) ->
+    $scope.shooters = []
+    $scope.shooter = #{@registration.shooter.to_json(except: [:created_at, :lady, :updated_at, :waiver])}
+    $scope.search = ''
+    $scope.step = 1
+    $scope.errors = []
+    $scope.searched = false
+    $scope.squad = #{@registration.squad}
+
+    $scope.shooter.agc_member = $scope.shooter.agc_member.toString()
+
+    $scope.test = ->
+      console.log $('#registration_shooter_id').val()
+
+    $scope.$watch 'search', () ->
+      return unless $scope.search
+      $scope.searched = true
+      $.get '/shooters/search?q='+$scope.search, (data) ->
+        $scope.shooters = data.shooters
+        $scope.$apply()
+
+    $scope.selectShooter = (shooter) ->
+      $scope.shooter = shooter
+      console.log $scope.shooter
+      $scope.next()
+
+    $scope.createShooter = ->
+      $.ajax
+        url: '/shooters'
+        data: {shooter: $scope.shooter}
+        type: 'POST'
+        dataType: 'json'
+        success: (data) ->
+          $scope.shooter = data.shooter
+          $scope.errors = []
+          $scope.next()
+          $scope.$apply()
+        error: (data) ->
+          $scope.errors = data.responseJSON.shooters
+          $scope.$apply()
+
+    $scope.selectDivision = (division) ->
+      $scope.division = division
+      $scope.next()
+      if division == 'Production'
+        $scope.selectPowerFactor('Minor')
+
+    $scope.selectPowerFactor = (power_factor) ->
+      console.log $scope.shooter
+      $scope.power_factor = power_factor
+      $scope.next()
+      if $scope.squad && $scope.squad < 5
+        $scope.next()
+        d = new Date()
+        if $scope.shooter.member == d.getFullYear().toString()
+          $scope.next()
+
+    $scope.selectSquad = (squad) ->
+      $scope.squad = squad
+      $scope.next()
+      d = new Date()
+      if $scope.shooter.member == d.getFullYear().toString()
+        $scope.next()
+
+    $scope.joinPsac = (choice) ->
+      $scope.join_psac = choice
+      $scope.next()
+
+    $scope.next = ->
+      $scope.step++
+
+    $scope.next() if $scope.shooter.id

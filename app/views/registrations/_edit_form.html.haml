@@ -1,0 +1,118 @@
+= form_for @registration do |f|
+  - if f.object.errors.any?
+    .alert.alert-error
+      %h3 Oh No! You broke it! Don't worry, just fix the following:
+      %ul
+        - f.object.errors.full_messages.each do |msg|
+          %li= msg
+  .row
+    .span6
+      %h3 Shooter Info
+      = f.fields_for :shooter do |ff|
+        .field
+          = ff.label :first_name
+          = ff.text_field :first_name
+        .field
+          = ff.label :last_name
+          = ff.text_field :last_name
+        .field
+          = ff.label :uspsa_number
+          = ff.text_field :uspsa_number
+        .field
+          = ff.label :age
+          = ff.hidden_field :age
+          .btn-group{data: {toggle: 'buttons-radio', target: '#registration_shooter_attributes_age'}}
+            - Shooter.ages.each do |age|
+              %button.btn{type: 'button'} #{age}
+        .field
+          = ff.label :gender
+          = ff.hidden_field :gender
+          .btn-group{data: {toggle: 'buttons-radio', target: '#registration_shooter_attributes_gender'}}
+            %button.btn{type: 'button'} MALE
+            %button.btn{type: 'button'} FEMALE
+        .field
+          = ff.label :military
+          = ff.hidden_field :military
+          .btn-group{data: {toggle: 'buttons-radio', target: '#registration_shooter_attributes_military'}}
+            %button.btn.active{type: 'button', data: {value: 'f'}} No
+            %button.btn{type: 'button', data: {value: 't'}} Yes
+        .field
+          = ff.label :law
+          = ff.hidden_field :law
+          .btn-group{data: {toggle: 'buttons-radio', target: '#registration_shooter_attributes_law'}}
+            %button.btn.active{type: 'button', data: {value: 'f'}} No
+            %button.btn{type: 'button', data: {value: 't'}} Yes
+        .field
+          = ff.label :agc_member
+          = ff.hidden_field :agc_member, data: {bind: 'value: agc_member'}
+          .btn-group{data: {toggle: 'buttons-radio', target: '#registration_shooter_attributes_agc_member'}}
+            %button.btn.active{type: 'button', data: {value: 'false'}} No
+            %button.btn{type: 'button', data: {value: 'true'}} Yes
+
+        .field{data: {bind: 'if: agc_member() == "true"'}}
+          = ff.label :agc_number
+          = ff.text_field :agc_number
+
+        = ko 'ifnot: agc_member' do
+          = ff.hidden_field :agc_number, value: ''
+    .span6
+      %h3 Registration Info
+      .field
+        = f.label :division
+        = f.hidden_field :division, data: {bind: 'value: division'}
+        .btn-group{data: {toggle: 'buttons-radio', target: '#registration_division'}}
+          - Registration.divisions.each do |division|
+            %button.btn{type: 'button'}= division
+      .field{data: {bind: 'ifnot: division() == "Production"'}}
+        = f.label :power_factor
+        = f.hidden_field :power_factor
+        .btn-group{data: {toggle: 'buttons-radio', target: '#registration_power_factor'}}
+          - Registration.power_factors.each do |pf|
+            %button.btn{type: 'button'}= pf
+
+      .field{data: {bind: 'if: division() == "Production"'}}
+        = f.hidden_field :power_factor, value: 'Minor'
+
+      .field
+        = f.label :squad
+        = f.hidden_field :squad
+        .btn-group{data: {toggle: 'buttons-radio', target: '#registration_squad'}}
+          - (1..4).each do |squad|
+            %button.btn{type: 'button'}= squad
+      .field
+        = f.label :fee
+        = f.text_field :fee
+      .field
+        = f.label :notes
+        = f.text_area :notes, rows: 4
+      .field
+        = f.label :join_psac
+        = f.hidden_field :join_psac
+        .btn-group{data: {toggle: 'buttons-radio', target: '#registration_join_psac'}}
+          %button.btn.active{type: 'button', data: {value: 'f'}} No
+          %button.btn{type: 'button', data: {value: 't'}} Yes
+
+  .actions
+    = f.submit class: 'btn btn-large btn-primary'
+
+:coffee
+  registrationViewModel = ->
+
+    # fix the 'this' problem
+    self = this
+
+    # data
+    self.division = ko.observable '#{@registration.division}'
+    self.agc_member = ko.observable '#{@registration.shooter.agc_member}'
+
+    # actions
+    self.fixButtons = ->
+      initButtons()
+
+    # fix the coffee problem with the 'this' problem fix
+    self
+
+  $ ->
+    myViewModel = new registrationViewModel()
+    ko.applyBindings myViewModel
+    initButtons()

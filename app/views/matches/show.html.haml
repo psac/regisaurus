@@ -1,0 +1,81 @@
+- provide :head, javascript_include_tag(:match)
+
+:coffee
+  window._match_path = '#{match_path(@match)}'
+  window._match = #{@match.to_json}
+
+%fieldset
+  %legend Actions
+  %form.form-inline
+    %button.btn{data: {bind: 'click: refresh'}}
+      %i.icon-refresh
+      Refresh
+    = link_to csv_match_path(@match), class: 'btn' do
+      %i.icon-download
+      Download CSV
+%fieldset
+  %legend Registrations
+  .row
+    .span3
+      = ko 'foreach: paid', :div, class: 'notifications', id: 'paid' do
+        .invoice
+          = ko 'text: shooters', :strong
+          %br
+          = ko 'click: $root.resetPayments', :button, class: 'btn btn-danger btn-mini', data: {confirm: 'You sure?'}, type: 'button' do
+            %i.icon-repeat.icon-white
+            Reset
+          = ko 'text: cash', :span
+          \/
+          = ko 'text: check', :span
+          \/
+          = ko 'text: points', :span
+          \/
+          = ko 'text: discounts', :span
+    .span9
+      #unpaid{data: {bind: 'foreach: unpaid'}}
+        = ko 'css: {paid: paid, overpaid: amount_due < 0, active: active}', :div, class: 'invoice' do
+          = ko 'text: shooters, click: $root.makeActive', :h4
+          .row-fluid
+            .span6
+              %table.table.table-bordered.table-striped.payments
+                %tbody
+                  %tr
+                  - %w{cash check points discounts}.each do |method|
+                    %tr{class: method}
+                      %th= method.capitalize
+                      = ko "text: #{method}", :td
+                      %td= payment_button method
+                      %td= payment_button method, 10
+                      %td= payment_button method, 5
+                      %td= payment_button method, 1
+                  %tr
+                    %th Total Paid
+                    = ko 'text: amount_paid', :td
+                    %td{colspan: 4}
+                      = ko 'click: $root.resetPayments, disable: amount_paid == 0', :button, class: 'btn' do
+                        Reset Payments
+                  %tr
+                    %th Amount Due
+                    = ko 'text: amount_due', :td
+                    %td{colspan: 4}
+            .span6
+              %table.table.table-bordered.table-striped
+                %thead
+                  %tr
+                    %th Name
+                    %th Squad
+                    %th Div/PF
+                    %th Fee
+                    %th{style: 'width: 100px'}
+                = ko 'foreach: registrations', :tbody do
+                  = ko 'css: {error: !shooter_waiver}', :tr do
+                    = ko 'text: shooter_name', :td
+                    = ko 'text: squad', :td
+                    = ko 'text: division_short, attr: {class: power_factor}', :td
+                    = ko 'text: fee', :td
+                    %td
+                      = ko 'ifnot: shooter_waiver', :span do
+                        = ko 'text: "waiver", click: function (data, event) {$root.sign(data, $parent)}', :a, class: 'btn btn-mini'
+                      = ko 'if: shooter_waiver', :span do
+                        = ko 'text: "edit", attr: {href: "/registrations/"+id+"/edit"}', :a, class: 'btn btn-mini'
+                      = ko 'text: "delete", attr: {href: "/registrations/"+id}', :a, class: 'btn btn-mini btn-danger', data: {confirm: 'you sure?', method: 'delete'}

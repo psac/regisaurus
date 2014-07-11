@@ -1,0 +1,124 @@
+@import 'bootstrap/mixins';
+
+.logo {
+  margin: 20px 0;
+  img {
+    max-width: 100%;
+  }
+}
+
+.results {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+      float: none;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.existing-shooter .formatting {
+  padding: 10px;
+  background: #f1f1f1;
+  border: 1px solid #999;
+  @include border-radius(5px);
+  margin: 20px 0;
+}
+
+#new_registration {
+  .btn-group {
+    margin-bottom: 10px;
+  }
+}
+
+$green: #deefd8;
+$red: #f3dede;
+
+.field {
+  margin-bottom: 10px;
+}
+
+#paid {
+  .invoice {
+    padding: 10px;
+    margin-bottom: 10px;
+    @include gradient-vertical(#f1f1f1, #eaeaea);
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    @include box-shadow(0 0 3px rgba(0,0,0,.14));
+  }
+}
+#unpaid {
+  .invoice {
+    padding: 20px;
+    @include gradient-vertical(#f1f1f1, #eaeaea);
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    @include box-shadow(0 0 3px rgba(0,0,0,.14));
+    margin-bottom: 20px;
+    h4:first-child {
+      margin-top: 0;
+    }
+    &.paid {
+      @include gradient-vertical($green, darken($green, 6));
+      border-color: #d5e8c6;
+      color: #408746;
+    }
+    &.overpaid {
+      @include gradient-vertical($red, darken($red, 6));
+      border-color: #f0d3d7;
+      color: #be4a49;
+    }
+    table.payments td {
+      text-align: right;
+      font-size: 2em;
+    }
+    table.payments {
+      .cash {
+        td .btn {
+          background: #0fc843 none;
+          color: black;
+        }
+      }
+      .check {
+        td .btn {
+          background: #0f92c8 none;
+          color: black;
+        }
+      }
+      .points {
+        td .btn {
+          background: #e0de2b none;
+          color: black;
+        }
+      }
+      .discounts {
+        td .btn {
+          background: #e02b2b none;
+          color: black;
+        }
+      }
+    }
+    table {
+      @include box-shadow(0 0 3px rgba(0,0,0,.14));
+    }
+    h4 {
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+    td.Minor {
+      text-transform: lowercase;
+      font-weight: lighter;
+    }
+    td.Major {
+      text-transform: uppercase;
+      font-weight: bolder;
+    }
+  }
+}
+
+@media(max-width: 801px) {
+  @import 'small_screen';
+}

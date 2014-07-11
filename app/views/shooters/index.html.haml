@@ -1,0 +1,31 @@
+%h1 Listing shooters
+
+%table.table.table-striped.table-bordered
+  %tr
+    %th ID
+    %th First name
+    %th Last name
+    %th Uspsa number
+    %th Gender
+    %th Age
+    %th Member
+    %th
+    %th
+    %th
+
+  - @shooters.each do |shooter|
+    %tr
+      %td= shooter.id
+      %td= shooter.first_name
+      %td= shooter.last_name
+      %td= shooter.uspsa_number
+      %td= shooter.gender
+      %td= shooter.age
+      %td= shooter.member
+      %td= link_to 'Show', shooter
+      %td= link_to 'Edit', edit_shooter_path(shooter)
+      %td= link_to 'Destroy', shooter, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Shooter', new_shooter_path

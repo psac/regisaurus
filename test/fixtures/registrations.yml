@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  shooter_id: 1
+  match_id: 1
+  fee: 1
+  paid: 1
+  notes: MyText
+  division: MyString
+  power_factor: MyString
+  squad: 1
+
+two:
+  shooter_id: 1
+  match_id: 1
+  fee: 1
+  paid: 1
+  notes: MyText
+  division: MyString
+  power_factor: MyString
+  squad: 1

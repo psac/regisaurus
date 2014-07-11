@@ -1,0 +1,17 @@
+%p &nbsp;
+%table.table.table-striped.table-bordered
+  %tr
+    %th Paying For:
+    %td= @invoice.shooters
+  %tr
+    %th Amount Due:
+    %td= number_to_currency @invoice.amount_due
+
+- second_gun = @registration.attributes.keep_if { |key| %w{invoice_id squad shooter_id}.include? key }
+- second_gun.reject! { |k, v| k == :squad and v > 4 }
+%p= link_to 'Register a second gun', new_registration_path(registration: second_gun), class: 'btn btn-massive'
+
+- same_invoice = @registration.attributes.keep_if { |key| %w{invoice_id}.include? key }
+%p= link_to 'Register (and pay for) another shooter', new_registration_path(registration: same_invoice), class: 'btn btn-massive'
+
+%p= link_to 'Done', registrations_path, class: 'btn btn-massive btn-primary'
