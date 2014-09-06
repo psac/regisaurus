@@ -11,6 +11,7 @@ Regisaurus::Application.routes.draw do
     get 'activate', on: :member
     get 'csv', on: :member
     get 'money', on: :member
+    get 'agc_sheet', on: :member
   end
 
   resources :shooters do

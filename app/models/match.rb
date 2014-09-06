@@ -40,4 +40,16 @@ class Match < ActiveRecord::Base
   def total(method)
     invoices.paid.inject(0) { |total, invoice| total += invoice.try(method) }
   end
+
+  def agc_total
+    total = 0
+    registrations.each do |reg|
+      if reg.shooter.agc_member
+        total += 2
+      else
+        total += 8
+      end
+    end
+    total
+  end
 end

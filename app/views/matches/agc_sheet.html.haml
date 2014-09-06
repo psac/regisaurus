@@ -1,0 +1,74 @@
+- @pages.each do |page|
+  :ruby
+    member_count = 0
+    non_member_count = 0
+  .title 3100.40 PSAC - Pistol
+  .subtitle Aurora Gun Club Shoot Sign-up Sheet
+  %p.text-center
+    As part of this match, I do hereby release the Aurora Gun Club, it's agents,
+    officers, employees, and the organizations with which the club is affiliated,
+    their agents, officers, and employees, from any and all claims for innury,
+    liability, and damage that may be sustained by virtue of my participation in
+    any activity conducted by the club or any of it's affiliated organizations on
+    club grounds.
+  %p.text-center
+    I agree that I will, at all times, idemnify and save harmless said Aurora Gun
+    Club and the said agents, officers and employees, and/or any other
+    organizations under whose auspices I may be competing or participating, from
+    and against all claims, suits, damages, costs, losses, and expenses in any
+    manner resulting from or arising out of my participation.
+
+  %p
+    Reporting Person
+    %span.underline Josh Horner
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Date
+    %span.underline= Time.now.to_date
+
+  %table.agc
+    %tr
+      %th #
+      %th Name
+      %th Member #
+      %th Non-member
+    - page.each_with_index do |registration, index|
+      :ruby
+        if registration.shooter.agc_member
+          member_count += 1
+        else
+          non_member_count += 1
+        end
+      %tr
+        %td= index
+        %td= registration.shooter_name
+        %td= registration.shooter.agc_number
+        %td= registration.shooter.agc_member ? '' : 'X'
+  %table.total
+    %tr
+      %td Total Members
+      %td= member_count
+      %td X
+      %td $2.00
+      %td =
+      %td= number_to_currency(member_count * 2.00)
+    %tr
+      %td Total Non-Members
+      %td= member_count
+      %td X
+      %td $8.00
+      %td =
+      %td= number_to_currency(non_member_count * 2.00)
+    %tr
+      %td Sheet Total
+      %td
+      %td
+      %td
+      %td
+      %td= number_to_currency(member_count * 2.00 + non_member_count * 8.00)
+    %tr
+      %td Total
+      %td
+      %td
+      %td
+      %td
+      %td= number_to_currency(@match_total)

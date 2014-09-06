@@ -19,6 +19,7 @@
       %td= match.created_at
       %td
         = link_to 'Show', match, class: 'btn'
+        = link_to 'AGC', agc_sheet_match_path(match), class: 'btn btn-primary'
         = link_to 'Edit', edit_match_path(match), class: 'btn btn-warning'
         = link_to 'Money', money_match_path(match, format: 'csv'), class: 'btn btn-warning'
         = link_to 'Destroy', match, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'

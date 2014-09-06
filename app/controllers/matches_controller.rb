@@ -33,6 +33,17 @@ class MatchesController < ApplicationController
     send_data data, type: 'text/csv', filename: "#{match.title}.csv"
   end
 
+  def agc_sheet
+    if params[:id]
+      @match = Match.find params[:id]
+    else
+      @match = Match.active
+    end
+    @registrations = @match.registrations
+    @pages = @registrations.each_slice(25)
+    @match_total = @match.agc_total;
+  end
+
   # GET /matches/1
   # GET /matches/1.json
   def show
