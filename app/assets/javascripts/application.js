@@ -13,7 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require angular
+//= require angular-resource
+//= require angular-route
 //= require knockout2.3
-//= require knockout-mapping
-//= require angular.min
 //= require_tree ./all

@@ -1,22 +1,36 @@
-.row{data: {bind: 'with: registrations'}}
-  - (1..4).each do |i|
-    .span3
-      .hidden-desktop.pull-right= link_to "Sign up - Squad #{i}", new_registration_path(registration: {squad: i}), class: 'btn btn-primary btn-large'
-      .visible-desktop= link_to "Sign up - Squad #{i}", new_registration_path(registration: {squad: i}), class: 'btn btn-primary'
-      %h3
-        Squad #{i}
-      %ol{data: {bind: "foreach: squad#{i}"}}
-        %li{data: {bind: 'text: shooter_name'}}
-    %hr.hidden-desktop
-:coffee
-  registrationViewModel = ->
-    self = this
-    self.registrations = ko.observable(#{@registrations.to_json(methods: :shooter_name)})
-    self
+- if user_signed_in?
+  - provide :head do
+    = javascript_include_tag :registrations
+  .app{'ng-app' => 'registrations'}
+    .view{'ng-view' => ''}
+- else
+  .row
+    -#{data: {bind: 'with: registrations'}}
+    - (1..4).each do |i|
+      .span3
+        .hidden-desktop.pull-right= link_to "Sign up - Squad #{i}", new_registration_path(registration: {squad: i}), class: 'btn btn-primary btn-large'
+        .visible-desktop= link_to "Sign up - Squad #{i}", new_registration_path(registration: {squad: i}), class: 'btn btn-primary'
+        %h3
+          Squad #{i}
+        %ol{data: {bind: "foreach: squad#{i}"}}
+          %li{data: {bind: 'text: shooter_name'}}
+      %hr.hidden-desktop
+  :coffee
+    registrationViewModel = ->
+      self = this
+      self.squad1 = ko.observable(#{@registrations['Squad 1'].to_json(methods: :shooter_name)})
+      self.squad2 = ko.observable(#{@registrations['Squad 2'].to_json(methods: :shooter_name)})
+      self.squad3 = ko.observable(#{@registrations['Squad 3'].to_json(methods: :shooter_name)})
+      self.squad4 = ko.observable(#{@registrations['Squad 4'].to_json(methods: :shooter_name)})
+      self
 
-  $ ->
-    myViewModel = new registrationViewModel()
-    ko.applyBindings myViewModel
-    window.setInterval ->
-      $.getJSON '/registrations', myViewModel.registrations
-    , 10000
+    $ ->
+      myViewModel = new registrationViewModel()
+      ko.applyBindings myViewModel
+      window.setInterval ->
+        $.getJSON '/registrations', (res) ->
+          myViewModel.squad1(res['Squad 1'])
+          myViewModel.squad2(res['Squad 2'])
+          myViewModel.squad3(res['Squad 3'])
+          myViewModel.squad4(res['Squad 4'])
+      , 10000

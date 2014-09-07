@@ -7,7 +7,7 @@ class RegistrationsController < ApplicationController
     @shooter = @registration.shooter
     @shooter.waiver = Time.now
     @shooter.save
-    render json: @registration.invoice
+    render json: @registration.invoice.registrations.as_json
   end
 
   # GET /registrations

@@ -112,10 +112,16 @@ $red: #f3dede;
       text-transform: lowercase;
       font-weight: lighter;
     }
-    td.Major {
-      text-transform: uppercase;
-      font-weight: bolder;
-    }
+  }
+}
+td.Major {
+  text-transform: uppercase;
+  font-weight: bolder;
+}
+li.unpaid {
+  background: #990000;
+  a {
+    color: white;
   }
 }
 

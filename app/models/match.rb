@@ -14,13 +14,9 @@ class Match < ActiveRecord::Base
   has_many :invoices
 
   def get_registrations_by_squad
-    lists = { squad1: [], squad2: [], squad3: [], squad4: [] }
-    registrations.includes(:shooter).each do |r|
-      next unless r.squad.in? 1..4
-      index = "squad#{r.squad}".to_sym
-      lists[index] << r
+    registrations.includes(:shooter).includes(:invoice).group_by do |r|
+      "Squad #{r.squad}"
     end
-    lists
   end
 
   def has_shooter? shooter

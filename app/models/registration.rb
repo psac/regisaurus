@@ -80,6 +80,7 @@ class Registration < ActiveRecord::Base
     options.reverse_merge! methods: [:shooter_name, :shooter_waiver, :division_short]
     hash = super options
     hash[:shooter] = shooter
+    hash[:invoice] = invoice
     hash
   end
 
