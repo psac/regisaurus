@@ -1,7 +1,7 @@
 - @pages.each do |page|
   :ruby
-    member_count = 0
-    non_member_count = 0
+    @member_count = 0
+    @non_member_count = 0
   .title 3100.40 PSAC - Pistol
   .subtitle Aurora Gun Club Shoot Sign-up Sheet
   %p.text-center
@@ -34,37 +34,37 @@
     - page.each_with_index do |registration, index|
       :ruby
         if registration.shooter.agc_member
-          member_count += 1
+          @member_count += 1
         else
-          non_member_count += 1
+          @non_member_count += 1
         end
       %tr
-        %td= index
+        %td= index + 1
         %td= registration.shooter_name
-        %td= registration.shooter.agc_number
+        %td= registration.shooter.agc_number if registration.shooter.agc_member
         %td= registration.shooter.agc_member ? '' : 'X'
   %table.total
     %tr
       %td Total Members
-      %td= member_count
+      %td= @member_count
       %td X
       %td $2.00
       %td =
-      %td= number_to_currency(member_count * 2.00)
+      %td= number_to_currency(@member_count * 2.00)
     %tr
       %td Total Non-Members
-      %td= member_count
+      %td= @non_member_count
       %td X
       %td $8.00
       %td =
-      %td= number_to_currency(non_member_count * 2.00)
+      %td= number_to_currency(@non_member_count * 8.00)
     %tr
       %td Sheet Total
       %td
       %td
       %td
       %td
-      %td= number_to_currency(member_count * 2.00 + non_member_count * 8.00)
+      %td= number_to_currency(@member_count * 2.00 + @non_member_count * 8.00)
     %tr
       %td Total
       %td
@@ -72,3 +72,4 @@
       %td
       %td
       %td= number_to_currency(@match_total)
+  .clr-and-break

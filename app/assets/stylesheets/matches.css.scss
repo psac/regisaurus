@@ -118,6 +118,23 @@ $red: #f3dede;
     }
   }
 }
+table.agc {
+  width: 100%;
+  border-collapse: collapse;
+  td {
+    border: 1px solid black;
+  }
+}
+table.total {
+  float: right;
+  td {
+    padding: 5px;
+  }
+}
+.clr-and-break {
+  clear: both;
+  page-break-after: always;
+}
 
 @media(max-width: 801px) {
   @import 'small_screen';
