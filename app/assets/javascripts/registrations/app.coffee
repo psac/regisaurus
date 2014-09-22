@@ -19,8 +19,10 @@ app.factory 'registrationsFactory', ['$http', ($http) ->
 app.controller 'InvoiceCtrl', ['$scope', '$resource', '$location', '$routeParams', '$http', ($scope, $resource, $location, $routeParams, $http) ->
   Invoice = $resource '/invoices/:id', null, {update: {method: 'PUT'}}
   $scope.invoice = Invoice.get id: $routeParams.id
+  $scope.saving = false
   $scope.pay = (method, amount) ->
     $scope.invoice[method] += amount
+    $scope.save()
   $scope.amount_due = () ->
     $scope.invoice.fee - $scope.amount_paid()
   $scope.amount_paid = () ->
@@ -30,14 +32,17 @@ app.controller 'InvoiceCtrl', ['$scope', '$resource', '$location', '$routeParams
     $scope.invoice.check = 0
     $scope.invoice.points = 0
     $scope.invoice.discounts = 0
+    $scope.save()
   $scope.save = () ->
-    console.log 'save'
+    $scope.saving = true
     Invoice.update {id: $scope.invoice.id}, {invoice: $scope.invoice}, ->
-      $location.path('/')
+      $scope.saving = false
+  $scope.paid = ->
+    $scope.amount_due() == 0
   $scope.waiver = (registration) ->
     $http.get("/registrations/#{registration.id}/waiver").success (res) ->
-      console.log res
-      $scope.invoice.registrations = res
+      index = $scope.invoice.registrations.indexOf registration
+      $scope.invoice.registrations.splice index, 1, res
 ]
 
 
