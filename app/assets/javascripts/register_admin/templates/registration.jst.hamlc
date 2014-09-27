@@ -1,0 +1,71 @@
+%h1 Editing registration
+
+.row
+  .span6
+    %h3 Shooter Info
+    .field
+      %label{for: 'shooter_first_name'} First Name
+      %input#shooter_first_name{type: 'text', name: 'first_name', ng_model: 'registration.shooter.first_name'}
+    .field
+      %label{for: 'shooter_last_name'} Last Name
+      %input#shooter_last_name{type: 'text', name: 'last_name', ng_model: 'registration.shooter.last_name'}
+    .field
+      %label{for: 'shooter_uspsa_number'} USPSA Number
+      %input#shooter_uspsa_number{type: 'text', name: 'uspsa_number', ng_model: 'registration.shooter.uspsa_number'}
+    .field
+      %label{for: 'shooter_age'} Age
+      %select#shooter_age{name: 'age', ng_model: 'registration.shooter.age'}
+        %option{value: 'ADULT'} ADULT
+        %option{value: 'SENIOR'} SENIOR
+        %option{value: 'SUPSNR'} SUPSNR
+        %option{value: 'JUNIOR'} JUNIOR
+    .field
+      %label{for: 'shooter_gender'} Gender
+      %select#shooter_gender{name: 'gender', ng_model: 'registration.shooter.gender'}
+        %option{value: 'MALE'} MALE
+        %option{value: 'FEMALE'} FEMALE
+    .field
+      %label{for: 'shooter_military'} Military
+      %select#shooter_military{name: 'military', ng_model: 'registration.shooter.military', ng_options: 'yn.value as yn.text for yn in yesno'}
+    .field
+      %label{for: 'shooter_law'} Law
+      %select#shooter_law{name: 'law', ng_model: 'registration.shooter.law', ng_options: 'yn.value as yn.text for yn in yesno'}
+    .field
+      %label{for: 'shooter_agc_member'} AGC Member
+      %select#shooter_agc_member{name: 'agc_member', ng_model: 'registration.shooter.agc_member', ng_options: 'yn.value as yn.text for yn in yesno'}
+    .field{ng_if: 'registration.shooter.agc_member == "t"'}
+      %label{for: 'shooter_agc_number'} AGC Number
+      %input{type: 'text', name: 'agc_number', ng_model: 'registration.shooter.agc_number'}
+  .span6
+    %h3 Registration Info
+    .field
+      %label{for: 'division'} Division
+      %select#division{name: 'division', ng_model: 'registration.division'}
+        %option{value: 'Limited'} Limited
+        %option{value: 'Open'} Open
+        %option{value: 'Single Stack'} Single Stack
+        %option{value: 'Production'} Production
+        %option{value: 'Limited 10'} Limited 10
+        %option{value: 'Revolver'} Revolver
+    .field
+      %label{for: 'power_factor'} Power Factor
+      %select#power_factor{name: 'power_factor', ng_model: 'registration.power_factor', ng_disabled: 'registration.division == "Production"'}
+        %option{value: 'Major'} Major
+        %option{value: 'Minor'} Minor
+
+    .field
+      %label{for: 'squad'} Squad
+      %input{type: 'text', name: 'squad', ng_model: 'registration.squad'}
+    .field
+      %label{for: 'fee'} Fee
+      %input#fee{type: 'text', name: 'fee', ng_model: 'registration.fee'}
+    .field
+      %label{for: 'notes'} Notes
+      %textarea#notes{rows: '5', name: 'notes', ng_model: 'registration.notes'}
+    .field
+      %label{for: 'join_psac'} Join PSAC
+      %select{name: 'join_psac', ng_model: 'registration.join_psac', ng_options: 'yn.value as yn.text for yn in yesno'}
+
+.actions
+  %button.btn.btn-large.btn-primary{type: 'button', ng_click: 'save(registration)'} Save
+  %button.btn.btn-large.btn-primary{type: 'button', ng_click: 'save(registration, "/")'} Save (back to registrations)

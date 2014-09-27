@@ -11,7 +11,7 @@ class ShootersController < ApplicationController
   # GET /shooters
   # GET /shooters.json
   def index
-    @shooters = Shooter.ordered.all
+    @shooters = Shooter.ordered.includes(:registrations).all
 
     respond_to do |format|
       format.html # index.html.erb

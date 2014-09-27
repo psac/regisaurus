@@ -118,11 +118,19 @@ td.Major {
   text-transform: uppercase;
   font-weight: bolder;
 }
-li.unpaid {
-  background: #990000;
-  a {
-    color: white;
+ol.registrations {
+  li .shooter {
+    padding: 5px;
+    margin-bottom: 2px;
   }
+}
+li.nowaiver .shooter {
+  background: orange;
+  color: white;
+}
+li.unpaid .shooter {
+  background: #990000;
+  color: white;
 }
 
 @media(max-width: 801px) {

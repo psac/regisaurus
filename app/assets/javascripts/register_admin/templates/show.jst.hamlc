@@ -1,8 +1,4 @@
-%a{href: '#/'} &laquo; Back to match
-.pull-right
-  %button.btn.btn-primary{ng_click: 'save()', ng_if: 'dirty'}
-    %i.glyphicon.glyphicon-save
-    Save
+%a.btn.btn-primary{href: '#/'} &laquo; Back to match
 %h1
   Invoice
   %span{ng_if: 'saving'} Saving...
@@ -16,37 +12,45 @@
           %td
             %button{ng_click: 'pay("cash", amount_due())'} {{amount_due() | currency}}
           %td
-            %button{ng_click: 'pay("cash", 5)', ng_disabled: 'paid()'} 5
+            %button{ng_click: 'pay("cash", 5)', ng_disabled: 'paid(5)'} 5
+          %td
+            %button{ng_click: 'pay("cash", 1)', ng_disabled: 'paid(1)'} 1
         %tr.check
           %th Check
           %td {{invoice.check}}
           %td
             %button{ng_click: 'pay("check", amount_due())'} {{amount_due() | currency}}
           %td
-            %button{ng_click: 'pay("check", 5)', ng_disabled: 'paid()'} 5
+            %button{ng_click: 'pay("check", 5)', ng_disabled: 'paid(5)'} 5
+          %td
+            %button{ng_click: 'pay("check", 1)', ng_disabled: 'paid(1)'} 1
         %tr.points
           %th Points
           %td {{invoice.points}}
           %td
             %button{ng_click: 'pay("points", amount_due())'} {{amount_due() | currency}}
           %td
-            %button{ng_click: 'pay("points", 5)', ng_disabled: 'paid()'} 5
+            %button{ng_click: 'pay("points", 5)', ng_disabled: 'paid(5)'} 5
+          %td
+            %button{ng_click: 'pay("points", 1)', ng_disabled: 'paid(1)'} 1
         %tr.discounts
           %th Discounts
           %td {{invoice.discounts}}
           %td
             %button{ng_click: 'pay("discounts", amount_due())'} {{amount_due() | currency}}
           %td
-            %button{ng_click: 'pay("discounts", 5)', ng_disabled: 'paid()'} 5
+            %button{ng_click: 'pay("discounts", 5)', ng_disabled: 'paid(5)'} 5
+          %td
+            %button{ng_click: 'pay("discounts", 1)', ng_disabled: 'paid(1)'} 1
         %tr
           %th Total Paid
           %td {{amount_paid()}}
-          %td{colspan: 4}
+          %td{colspan: 5}
             %button.btn{ng_click: 'reset_payments()'} Reset Payments
         %tr
           %th Amount Due
           %td {{amount_due()}}
-          %td{colspan: 4}
+          %td{colspan: 5}
   .span6
     %table.table.table-bordered.table-striped
       %thead
@@ -64,5 +68,5 @@
           %td {{ registration.fee }}
           %td
             %button{ng_if: '!registration.shooter_waiver', ng_click: '$parent.waiver(registration)'} waiver
-            %button edit
-            %button delete
+            %button{ng_click: 'edit_registration(registration)'} edit
+            %button{ng_click: 'delete_registration(registration)'} delete

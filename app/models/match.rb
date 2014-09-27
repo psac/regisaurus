@@ -19,6 +19,10 @@ class Match < ActiveRecord::Base
     end
   end
 
+  def registrations_with_shooters_and_invoice
+    registrations.includes(:shooter).includes(:invoice)
+  end
+
   def has_shooter? shooter
     registrations.where(shooter_id: shooter).length > 0
   end

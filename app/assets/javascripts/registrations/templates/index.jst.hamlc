@@ -1,9 +1,0 @@
-%h1 Register
-%p Total: {{totalShooters()}}
-.row
-  .span3{ng_repeat: '(squad, registrations) in squads'}
-    %h3 {{squad}}
-    %ol
-      %li{ng_repeat: 'registration in registrations', ng_class: '{unpaid: registration.invoice.paid == false}'}
-        %a{href: '#/invoice/{{registration.invoice.id}}'} {{registration.shooter_name}}
-  %hr.hidden-desktop
