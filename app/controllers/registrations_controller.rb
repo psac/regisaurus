@@ -7,18 +7,18 @@ class RegistrationsController < ApplicationController
     @shooter = @registration.shooter
     @shooter.waiver = Time.now
     @shooter.save
-    render json: @registration.invoice
+    render json: @registration.as_json
   end
 
   # GET /registrations
   # GET /registrations.json
 
   def index
-    @registrations = Match.active.get_registrations_by_squad
+    @registrations = Match.active.registrations_with_shooters_and_invoice
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @registrations, methods: :shooter_name }
+      format.json { render json: @registrations.as_json(methods: [:shooter_name, :shooter_waiver]), root: false }
     end
   end
 
@@ -34,7 +34,7 @@ class RegistrationsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @registration }
+      format.json { render json: @registration.as_json }
     end
   end
 
@@ -75,9 +75,8 @@ class RegistrationsController < ApplicationController
   # PUT /registrations/1.json
   def update
     @registration = Registration.find(params[:id])
-
     respond_to do |format|
-      if @registration.update_attributes(params[:registration])
+      if @registration.update_attributes(registration_params)
         format.html { redirect_to latest_matches_path, notice: 'Registration was successfully updated.' }
         format.json { head :no_content }
       else
@@ -95,7 +94,22 @@ class RegistrationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to latest_matches_path }
-      format.json { head :no_content }
+      format.json { render json: @registration.invoice, methods: [:registrations, :fee]}
     end
+  end
+
+  private
+
+  def registration_params
+    p = params[:registration]
+    shooter = p[:shooter]
+    shooter.keep_if do |key, val|
+      %w{id first_name last_name uspsa_number age gender military law agc_member agc_number waiver}.include? key
+    end
+    p.keep_if do |key, val|
+      %w{division power_factor squad fee notes join_psac}.include? key
+    end
+    p['shooter_attributes'] = shooter
+    p
   end
 end

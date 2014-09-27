@@ -1,0 +1,17 @@
+.pull-right
+  %p.form-inline
+    %input.form-control{type: 'text', ng_model: 'name_search', placeholder: 'Search by name'}
+    %button.btn{type: 'button', ng_click: 'name_search = ""'} Clear
+%p Total: {{totalShooters()}}
+.row
+  .span3{ng_repeat: 'squad in squads()'}
+    %h3 Squad {{squad}}
+    %ol.registrations
+      %li{ng_repeat: 'registration in registrations | filter:{squad: squad, shooter_name: name_search}', ng_class: '{unpaid: registration.invoice.paid == false, nowaiver: registration.shooter_waiver == false}'}
+        .shooter
+          .pull-right
+            %a.btn.btn-primary.btn-mini{href: '#/invoice/{{registration.invoice.id}}'} inv
+            %a.btn.btn-mini{href: '#/registration/{{registration.id}}'} reg
+          {{registration.shooter_name}}
+
+  %hr.hidden-desktop

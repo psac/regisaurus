@@ -1,22 +1,12 @@
-.row{data: {bind: 'with: registrations'}}
-  - (1..4).each do |i|
-    .span3
-      .hidden-desktop.pull-right= link_to "Sign up - Squad #{i}", new_registration_path(registration: {squad: i}), class: 'btn btn-primary btn-large'
-      .visible-desktop= link_to "Sign up - Squad #{i}", new_registration_path(registration: {squad: i}), class: 'btn btn-primary'
-      %h3
-        Squad #{i}
-      %ol{data: {bind: "foreach: squad#{i}"}}
-        %li{data: {bind: 'text: shooter_name'}}
-    %hr.hidden-desktop
-:coffee
-  registrationViewModel = ->
-    self = this
-    self.registrations = ko.observable(#{@registrations.to_json(methods: :shooter_name)})
-    self
-
-  $ ->
-    myViewModel = new registrationViewModel()
-    ko.applyBindings myViewModel
-    window.setInterval ->
-      $.getJSON '/registrations', myViewModel.registrations
-    , 10000
+= javascript_include_tag :registrations
+%div{'ng-app' => 'registrations'}
+  .row{ng_controller: 'IndexCtrl as index'}
+    - (1..4).each do |i|
+      .span3
+        .hidden-desktop.pull-right= link_to "Sign up - Squad #{i}", new_registration_path(registration: {squad: i}), class: 'btn btn-primary btn-large'
+        .visible-desktop= link_to "Sign up - Squad #{i}", new_registration_path(registration: {squad: i}), class: 'btn btn-primary'
+        %h3
+          Squad #{i}
+        %ol
+          %li{ng_repeat: "registration in index.registrations | filter:{squad: #{i}}"} {{registration.shooter_name}}
+      %hr.hidden-desktop

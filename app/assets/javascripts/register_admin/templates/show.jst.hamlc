@@ -1,0 +1,72 @@
+%a.btn.btn-primary{href: '#/'} &laquo; Back to match
+%h1
+  Invoice
+  %span{ng_if: 'saving'} Saving...
+.row-fluid
+  .span6
+    %table.table.table-bordered.table-striped.payments
+      %tbody
+        %tr.cash
+          %th Cash
+          %td {{invoice.cash}}
+          %td
+            %button{ng_click: 'pay("cash", amount_due())'} {{amount_due() | currency}}
+          %td
+            %button{ng_click: 'pay("cash", 5)', ng_disabled: 'paid(5)'} 5
+          %td
+            %button{ng_click: 'pay("cash", 1)', ng_disabled: 'paid(1)'} 1
+        %tr.check
+          %th Check
+          %td {{invoice.check}}
+          %td
+            %button{ng_click: 'pay("check", amount_due())'} {{amount_due() | currency}}
+          %td
+            %button{ng_click: 'pay("check", 5)', ng_disabled: 'paid(5)'} 5
+          %td
+            %button{ng_click: 'pay("check", 1)', ng_disabled: 'paid(1)'} 1
+        %tr.points
+          %th Points
+          %td {{invoice.points}}
+          %td
+            %button{ng_click: 'pay("points", amount_due())'} {{amount_due() | currency}}
+          %td
+            %button{ng_click: 'pay("points", 5)', ng_disabled: 'paid(5)'} 5
+          %td
+            %button{ng_click: 'pay("points", 1)', ng_disabled: 'paid(1)'} 1
+        %tr.discounts
+          %th Discounts
+          %td {{invoice.discounts}}
+          %td
+            %button{ng_click: 'pay("discounts", amount_due())'} {{amount_due() | currency}}
+          %td
+            %button{ng_click: 'pay("discounts", 5)', ng_disabled: 'paid(5)'} 5
+          %td
+            %button{ng_click: 'pay("discounts", 1)', ng_disabled: 'paid(1)'} 1
+        %tr
+          %th Total Paid
+          %td {{amount_paid()}}
+          %td{colspan: 5}
+            %button.btn{ng_click: 'reset_payments()'} Reset Payments
+        %tr
+          %th Amount Due
+          %td {{amount_due()}}
+          %td{colspan: 5}
+  .span6
+    %table.table.table-bordered.table-striped
+      %thead
+        %tr
+          %th Name
+          %th Squad
+          %th Div/PF
+          %th Fee
+          %th{style: 'width: 100px'}
+      %tbody
+        %tr{ng_repeat: 'registration in invoice.registrations', ng_class: '{error: !registration.shooter_waiver}'}
+          %td {{ registration.shooter_name }}
+          %td {{ registration.squad }}
+          %td{ng_class: 'registration.power_factor'} {{ registration.division_short }}
+          %td {{ registration.fee }}
+          %td
+            %button{ng_if: '!registration.shooter_waiver', ng_click: '$parent.waiver(registration)'} waiver
+            %button{ng_click: 'edit_registration(registration)'} edit
+            %button{ng_click: 'delete_registration(registration)'} delete

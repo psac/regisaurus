@@ -9,6 +9,7 @@
     %th Gender
     %th Age
     %th Member
+    %th Registrations
     %th
     %th
     %th
@@ -22,6 +23,7 @@
       %td= shooter.gender
       %td= shooter.age
       %td= shooter.member
+      %td= shooter.registrations.length
       %td= link_to 'Show', shooter
       %td= link_to 'Edit', edit_shooter_path(shooter)
       %td= link_to 'Destroy', shooter, :method => :delete, :data => { :confirm => 'Are you sure?' }

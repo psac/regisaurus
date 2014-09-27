@@ -32,8 +32,8 @@ class Invoice < ActiveRecord::Base
   end
 
 
-  def as_json(options)
-    options.reverse_merge! methods: [:fee, :amount_due, :amount_paid, :registrations, :modified, :shooters]
-    super options
-  end
+  #def as_json(options = {})
+    #options.reverse_merge! methods: [:fee, :amount_due, :amount_paid, :registrations, :modified, :shooters]
+    #super options
+  #end
 end

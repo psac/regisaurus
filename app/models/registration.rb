@@ -11,7 +11,7 @@ class Registration < ActiveRecord::Base
 
   before_create :update_shooter_member, :calculate_fee, :create_invoice
   before_save :force_update_shooter_member, if: Proc.new { join_psac and shooter.member != Time.now.year.to_s }
-  before_save :calculate_fee, if: Proc.new { join_psac_changed? }
+  before_save :calculate_fee, if: Proc.new { join_psac_changed? and (fee.nil? or not fee.changed?) }
   after_save :update_invoice
   after_destroy :update_invoice
 
@@ -80,6 +80,7 @@ class Registration < ActiveRecord::Base
     options.reverse_merge! methods: [:shooter_name, :shooter_waiver, :division_short]
     hash = super options
     hash[:shooter] = shooter
+    hash[:invoice] = invoice
     hash
   end
 
