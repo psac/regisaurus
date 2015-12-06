@@ -6,6 +6,10 @@ class Match < ActiveRecord::Base
     where(active: true).first
   end
 
+  def self.recent
+    where('created_at > ?', Time.now - 5.days)
+  end
+
   scope :ordered, order('club ASC, created_at DESC')
 
   default_scope ordered

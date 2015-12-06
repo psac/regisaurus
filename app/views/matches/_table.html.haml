@@ -1,0 +1,23 @@
+%table.table.table-striped.table-bordered
+  %tr
+    %th Active
+    %th Title
+    %th Club
+    %th Date
+    %th
+
+  - table.each do |match|
+    %tr
+      %td
+        - unless match.active
+          = link_to 'Activate', activate_match_path(match), class: 'btn btn-primary'
+
+      %td= match.title
+      %td= match.club
+      %td= match.created_at
+      %td
+        = link_to 'Show', match, class: 'btn'
+        = link_to 'AGC', agc_sheet_match_path(match), class: 'btn btn-primary'
+        = link_to 'Edit', edit_match_path(match), class: 'btn btn-warning'
+        = link_to 'Money', money_match_path(match, format: 'csv'), class: 'btn btn-warning'
+        = link_to 'Destroy', match, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'

@@ -6,6 +6,7 @@ class MatchesController < ApplicationController
   # GET /matches.json
   def index
     @matches = Match.all
+    @recent = Match.recent
 
     respond_to do |format|
       format.html # index.html.erb

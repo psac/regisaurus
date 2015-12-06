@@ -79,6 +79,7 @@
         %button.big-btn{type: 'button', 'ng-click' => 'selectDivision("Limited 10")'} Limited 10
         %button.big-btn{type: 'button', 'ng-click' => 'selectDivision("Single Stack")'} Single Stack
         %button.big-btn{type: 'button', 'ng-click' => 'selectDivision("Production")'} Production
+        %button.big-btn{type: 'button', 'ng-click' => 'selectDivision("Carry Optics")'} Carry Optics
         %button.big-btn{type: 'button', 'ng-click' => 'selectDivision("Revolver")'} Revolver
       %div{'ng-switch-when' => 3}
         %h1 Select Power Factor
@@ -175,6 +176,8 @@
       $scope.division = division
       $scope.next()
       if division == 'Production'
+        $scope.selectPowerFactor('Minor')
+      if division == 'Carry Optics'
         $scope.selectPowerFactor('Minor')
 
     $scope.selectPowerFactor = (power_factor) ->

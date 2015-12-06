@@ -1,4 +1,5 @@
 class Registration < ActiveRecord::Base
+  attr_accessor :nofee_join
   attr_accessible :division, :notes, :power_factor, :squad, :shooter_id, :shooter_attributes, :shooter, :invoice_id, :fee, :join_psac
 
   belongs_to :shooter
@@ -11,7 +12,7 @@ class Registration < ActiveRecord::Base
 
   before_create :update_shooter_member, :calculate_fee, :create_invoice
   before_save :force_update_shooter_member, if: Proc.new { join_psac and shooter.member != Time.now.year.to_s }
-  before_save :calculate_fee, if: Proc.new { join_psac_changed? and (fee.nil? or not fee.changed?) }
+  before_save :calculate_fee, if: Proc.new { join_psac_changed? }
   after_save :update_invoice
   after_destroy :update_invoice
 
@@ -21,7 +22,7 @@ class Registration < ActiveRecord::Base
   default_scope old_first
 
   def division_short
-    {'Open' => 'opn', 'Limited' => 'ltd', 'Limited 10' => 'l10', 'Production' => 'prd', 'Single Stack' => 'ss', 'Revolver' => 'rvo'}[division]
+    {'Open' => 'opn', 'Limited' => 'ltd', 'Limited 10' => 'l10', 'Production' => 'prd', 'Carry Optics' => 'cop', 'Single Stack' => 'ss', 'Revolver' => 'rvo'}[division]
   end
 
   def export_row
@@ -86,7 +87,7 @@ class Registration < ActiveRecord::Base
 
   class << self
     def divisions
-      %w{Limited Open Single\ Stack Production Limited\ 10 Revolver}
+      %w{Limited Open Single\ Stack Production Carry\ Optics Limited\ 10 Revolver}
     end
     def power_factors
       %w{Major Minor}

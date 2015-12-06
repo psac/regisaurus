@@ -1,29 +1,8 @@
+.pull-right.well= link_to 'New Match', new_match_path, class: 'btn btn-success'
+%h1 Recent matches
+
+= render partial: 'table', object: @recent
+
 %h1 Listing matches
 
-%table.table.table-striped.table-bordered
-  %tr
-    %th Active
-    %th Title
-    %th Club
-    %th Date
-    %th
-
-  - @matches.each do |match|
-    %tr
-      %td
-        - unless match.active
-          = link_to 'Activate', activate_match_path(match), class: 'btn btn-primary'
-
-      %td= match.title
-      %td= match.club
-      %td= match.created_at
-      %td
-        = link_to 'Show', match, class: 'btn'
-        = link_to 'AGC', agc_sheet_match_path(match), class: 'btn btn-primary'
-        = link_to 'Edit', edit_match_path(match), class: 'btn btn-warning'
-        = link_to 'Money', money_match_path(match, format: 'csv'), class: 'btn btn-warning'
-        = link_to 'Destroy', match, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'
-
-%br
-
-= link_to 'New Match', new_match_path
+= render partial: 'table', object: @matches
