@@ -22,6 +22,8 @@ class MatchesController < ApplicationController
       match = Match.active
     end
 
+    Registration.other_shooters = []
+
     data = CSV.generate do |csv|
       csv << ['uspsa', 'first name', 'last name', 'squad', 'age', 'gender', 'division', 'power factor', 'special']
       match.invoices.paid.each do |i|

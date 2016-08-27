@@ -104,7 +104,7 @@ class RegistrationsController < ApplicationController
     p = params[:registration]
     shooter = p[:shooter]
     shooter.keep_if do |key, val|
-      %w{id first_name last_name uspsa_number age gender military law agc_member agc_number waiver}.include? key
+      %w{id first_name last_name uspsa_number age gender military law agc_member agc_number club_board waiver}.include? key
     end
     p.keep_if do |key, val|
       %w{division power_factor squad fee notes join_psac}.include? key

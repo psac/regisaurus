@@ -1,4 +1,5 @@
 class Registration < ActiveRecord::Base
+  cattr_accessor :other_shooters
   attr_accessor :nofee_join
   attr_accessible :division, :notes, :power_factor, :squad, :shooter_id, :shooter_attributes, :shooter, :invoice_id, :fee, :join_psac
 
@@ -12,7 +13,7 @@ class Registration < ActiveRecord::Base
 
   before_create :update_shooter_member, :calculate_fee, :create_invoice
   before_save :force_update_shooter_member, if: Proc.new { join_psac and shooter.member != Time.now.year.to_s }
-  before_save :calculate_fee, if: Proc.new { join_psac_changed? }
+  before_save :calculate_fee, if: Proc.new { join_psac_changed? and not fee_changed?}
   after_save :update_invoice
   after_destroy :update_invoice
 
@@ -27,12 +28,19 @@ class Registration < ActiveRecord::Base
 
   def export_row
     # ['uspsa', 'first name', 'last name', 'squad', 'age', 'gender', 'division', 'power factor', 'special']
-    [shooter.uspsa_number, shooter.first_name, shooter.last_name, squad, shooter.age, shooter.gender, division, power_factor, shooter.special]
+    last_name = shooter.last_name
+    self.class.other_shooters << shooter.id
+    reg_number = self.class.other_shooters.find_all {|i| i == shooter.id}.length
+    if reg_number > 1
+      last_name += " #{reg_number}"
+    end
+    [shooter.uspsa_number, shooter.first_name, last_name, squad, shooter.age, shooter.gender, division, power_factor, shooter.special]
   end
 
   def shooter_name
     "#{shooter.first_name} #{shooter.last_name}"
   end
+
   def shooter_waiver
     shooter.current_waiver?
   end

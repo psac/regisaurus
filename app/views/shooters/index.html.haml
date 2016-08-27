@@ -9,6 +9,7 @@
     %th Gender
     %th Age
     %th Member
+    %th Club
     %th Registrations
     %th
     %th
@@ -23,6 +24,7 @@
       %td= shooter.gender
       %td= shooter.age
       %td= shooter.member
+      %td= shooter.club_board
       %td= shooter.registrations.length
       %td= link_to 'Show', shooter
       %td= link_to 'Edit', edit_shooter_path(shooter)

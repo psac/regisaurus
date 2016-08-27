@@ -31,6 +31,9 @@
       %label{for: 'shooter_law'} Law
       %select#shooter_law{name: 'law', ng_model: 'registration.shooter.law', ng_options: 'yn.value as yn.text for yn in yesno'}
     .field
+      %label{for: 'shooter_club_board'} Board
+      %input#shooter_club_board{type: 'text', name: 'club_board', ng_model: 'registration.shooter.club_board'}
+    .field
       %label{for: 'shooter_agc_member'} AGC Member
       %select#shooter_agc_member{name: 'agc_member', ng_model: 'registration.shooter.agc_member', ng_options: 'yn.value as yn.text for yn in yesno'}
     .field{ng_if: 'registration.shooter.agc_member == "t"'}
@@ -47,6 +50,7 @@
         %option{value: 'Production'} Production
         %option{value: 'Limited 10'} Limited 10
         %option{value: 'Revolver'} Revolver
+        %option{value: 'Carry Optics'} Carry Optics
     .field
       %label{for: 'power_factor'} Power Factor
       %select#power_factor{name: 'power_factor', ng_model: 'registration.power_factor', ng_disabled: 'registration.division == "Production"'}

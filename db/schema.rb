@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140125023737) do
+ActiveRecord::Schema.define(:version => 20160723133353) do
 
   create_table "invoices", :force => true do |t|
     t.integer  "cash",       :default => 0
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(:version => 20140125023737) do
     t.boolean  "law"
     t.boolean  "agc_member",   :default => false
     t.date     "waiver"
+    t.string   "club_board"
   end
 
   create_table "users", :force => true do |t|

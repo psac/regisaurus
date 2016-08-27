@@ -25,14 +25,18 @@
     = f.label :waiver
     = f.date_select :waiver
   .field
-    - if @shooter.current_member?
-      = f.label :remove_membership, class: 'checkbox' do
-        = f.check_box :remove_membership
-        Remove Membership
-    - else
-      = f.label :add_membership, class: 'checkbox' do
-        = f.check_box :add_membership
-        Add Membership
+    = f.label :club_board
+    = f.text_field :club_board
+  - unless @shooter.club_board.present?
+    .field
+      - if @shooter.current_member?
+        = f.label :remove_membership, class: 'checkbox' do
+          = f.check_box :remove_membership
+          Remove Membership
+      - else
+        = f.label :add_membership, class: 'checkbox' do
+          = f.check_box :add_membership
+          Add Membership
 
   .actions
     = f.submit 'Save'

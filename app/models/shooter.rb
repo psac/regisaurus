@@ -1,5 +1,5 @@
 class Shooter < ActiveRecord::Base
-  attr_accessible :age, :first_name, :gender, :last_name, :member, :waiver, :uspsa_number, :agc_number, :agc_member, :military, :law, :add_membership, :remove_membership
+  attr_accessible :age, :first_name, :gender, :last_name, :member, :waiver, :uspsa_number, :agc_number, :agc_member, :military, :law, :add_membership, :remove_membership, :club_board
   attr_accessor :add_membership, :remove_membership
 
   has_many :registrations
@@ -52,7 +52,7 @@ class Shooter < ActiveRecord::Base
   end
 
   def current_member?
-    member == Time.now.year.to_s
+    member == Time.now.year.to_s or club_board.present?
   end
   def current_waiver?
     return false if waiver.nil?
