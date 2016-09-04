@@ -26,6 +26,11 @@ app.factory 'Registration', ['$resource', ($resource) ->
 app.controller 'RegistrationCtrl', ['$scope', '$resource', '$location', '$routeParams', 'Registration', ($scope, $resource, $location, $routeParams, Registration) ->
   $scope.registration = Registration.get id: $routeParams.id
   $scope.yesno = [{value: false, text: 'No'}, {value: true, text: 'Yes'}]
+  $scope.$watch 'disable_pf()', (val) ->
+    if val
+      $scope.registration.power_factor = 'Minor'
+  $scope.disable_pf = ->
+    $scope.registration.division == 'Production' or $scope.registration.division == 'PCC' or $scope.registration.division == 'Carry Optics'
   $scope.save = (registration, path = null) ->
     Registration.update {id: registration.id, registration: registration}, ->
       if path

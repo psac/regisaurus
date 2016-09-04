@@ -51,9 +51,10 @@
         %option{value: 'Limited 10'} Limited 10
         %option{value: 'Revolver'} Revolver
         %option{value: 'Carry Optics'} Carry Optics
+        %option{value: 'PCC'} PCC
     .field
       %label{for: 'power_factor'} Power Factor
-      %select#power_factor{name: 'power_factor', ng_model: 'registration.power_factor', ng_disabled: 'registration.division == "Production"'}
+      %select#power_factor{name: 'power_factor', ng_model: 'registration.power_factor', ng_disabled: 'disable_pf()'}
         %option{value: 'Major'} Major
         %option{value: 'Minor'} Minor
 

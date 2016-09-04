@@ -23,7 +23,7 @@ class Registration < ActiveRecord::Base
   default_scope old_first
 
   def division_short
-    {'Open' => 'opn', 'Limited' => 'ltd', 'Limited 10' => 'l10', 'Production' => 'prd', 'Carry Optics' => 'cop', 'Single Stack' => 'ss', 'Revolver' => 'rvo'}[division]
+    {'Open' => 'opn', 'Limited' => 'ltd', 'Limited 10' => 'l10', 'PCC' => 'pcc', 'Production' => 'prd', 'Carry Optics' => 'cop', 'Single Stack' => 'ss', 'Revolver' => 'rvo'}[division]
   end
 
   def export_row
@@ -95,7 +95,7 @@ class Registration < ActiveRecord::Base
 
   class << self
     def divisions
-      %w{Limited Open Single\ Stack Production Carry\ Optics Limited\ 10 Revolver}
+      %w{Limited Open Single\ Stack Production Carry\ Optics Limited\ 10 PCC Revolver}
     end
     def power_factors
       %w{Major Minor}
