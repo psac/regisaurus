@@ -1,6 +1,59 @@
 class Match < ActiveRecord::Base
 
-  attr_accessible :created_at, :title, :club, :club_id, :active
+  attr_accessible :created_at, :title, :club, :club_id, :active, :import_csv
+
+  attr_accessor :import_csv
+
+  after_save :process_csv
+
+  def process_csv
+    if import_csv.present?
+      require 'csv'
+      transaction do
+        CSV.foreach import_csv.tempfile, headers: true do |row|
+          shooter = Shooter.find_by_uspsa_number row['memberID']
+          unless shooter
+            age = 'ADULT'
+            gender = 'MALE'
+            specials = row['special'].to_s.split(',').map(&:strip)
+
+            gender = 'FEMALE' if specials.include? 'Lady'
+            age = 'JUNIOR' if specials.include? 'Junior'
+            age = 'SENIOR' if specials.include? 'Senior'
+            age = 'SUPSNR' if specials.include? 'Super Senior'
+
+            s = shooter = Shooter.create(
+              first_name: row['first name'],
+              last_name: row['last name'],
+              uspsa_number: row['memberID'],
+              gender: gender,
+              age: age,
+            )
+
+            if s.errors.any?
+              raise s.errors.full_messages.join ', '
+            end
+
+          end
+
+          if ['Production', 'PCC', 'Carry Optics'].include? row['division']
+            row['power factor'] = 'Minor'
+          end
+
+          r = registrations.create(
+            shooter: shooter,
+            division: row['division'],
+            power_factor: row['power factor'],
+            squad: row['squad'],
+          )
+
+          if r.errors.any?
+            raise r.errors.full_messages.join ', '
+          end
+        end
+      end
+    end
+  end
 
   def self.active
     where(active: true).first

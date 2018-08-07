@@ -23,6 +23,18 @@ app.factory 'Registration', ['$resource', ($resource) ->
   Registration = $resource '/registrations/:id.json', {id: '@id'}, {update: {method: 'PUT'}}
 ]
 
+app.filter 'notDone', ->
+  (input, filter) ->
+    if filter
+      array = []
+      for item in input
+        unless item.invoice.paid and item.shooter_waiver
+          array.push item
+      array
+    else
+      input
+
+
 app.controller 'RegistrationCtrl', ['$scope', '$resource', '$location', '$routeParams', 'Registration', ($scope, $resource, $location, $routeParams, Registration) ->
   $scope.registration = Registration.get id: $routeParams.id
   $scope.yesno = [{value: false, text: 'No'}, {value: true, text: 'Yes'}]
@@ -87,6 +99,8 @@ app.controller 'IndexCtrl', ['$scope', 'registrationsFactory', ($scope, registra
 
   tid = window.setInterval getEm, 10000
   getEm()
+
+  $scope.pending = true
 
   $scope.totalShooters = ->
     return 0 unless $scope.registrations

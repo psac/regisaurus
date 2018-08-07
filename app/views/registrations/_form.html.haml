@@ -190,14 +190,14 @@
       if $scope.squad && $scope.squad < 5
         $scope.next()
         d = new Date()
-        if $scope.shooter.member == d.getFullYear().toString()
+        if $scope.shooter.member == d.getFullYear().toString() or true
           $scope.next()
 
     $scope.selectSquad = (squad) ->
       $scope.squad = squad
       $scope.next()
       d = new Date()
-      if $scope.shooter.member == d.getFullYear().toString()
+      if $scope.shooter.member == d.getFullYear().toString() or true
         $scope.next()
 
     $scope.joinPsac = (choice) ->

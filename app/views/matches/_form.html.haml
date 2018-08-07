@@ -16,5 +16,9 @@
     = f.label :created_at, 'Match Date'
     = f.date_select :created_at
 
+  .control
+    = f.label :import_csv
+    = f.file_field :import_csv
+
   .actions
     = f.submit
